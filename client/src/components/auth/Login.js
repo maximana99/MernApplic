@@ -21,7 +21,7 @@ const Login = () => {
  
   return (
     <Fragment>
-      <div style={{ paddingLeft: '20px', paddingTop: '80px' }}>
+      <div style={{ }}>
         <h1 className="large text-primary">Sign in</h1>
         <p className="lead">
           <i className="fas fa-user"></i> Sing into Your Account
