@@ -1,58 +1,78 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../actions/auth';
 
-
-const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
-  const {email, password} = formData;
+  const { email, password } = formData;
 
-  const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const navigate = useNavigate();
 
   const onSubmit = async e => {
     e.preventDefault();
-    console.log('Succes');
-    
+    login(email, password);
+  };
+
+  // Redirect if logged in
+  if (isAuthenticated) {
+    navigate('/dashboard');
   }
 
- 
   return (
     <Fragment>
-      <div style={{ }}>
+      <div style={{}}>
         <h1 className="large text-primary">Sign in</h1>
         <p className="lead">
           <i className="fas fa-user"></i> Sing into Your Account
         </p>
-        <form className="form" onSubmit={e => onSubmit(e)
-        }>
+        <form className="form" onSubmit={e => onSubmit(e)}>
           <div className="form-group">
-            <input type="email" placeholder="Email Address" name="email" value ={email} 
-            onChange={e => onChange(e)}
-            style={{ width: '50vw' }}
-            required/>
+            <input
+              type="email"
+              placeholder="Email Address"
+              name="email"
+              value={email}
+              onChange={e => onChange(e)}
+              style={{ width: '50vw' }}
+              required
+            />
           </div>
           <div className="form-group">
             <input
               type="password"
               placeholder="Password"
               name="password"
-              value ={password} 
-            onChange={e => onChange(e)}
-            style={{ width: '50vw' }}
+              value={password}
+              onChange={e => onChange(e)}
+              style={{ width: '50vw' }}
               minLength="6"
             />
           </div>
           <input type="submit" className="btn btn-primary" value="LogIn" />
         </form>
         <p className="my-1">
-          Don't have an account? <Link to='/register'>Sign Up</Link>
+          Don't have an account? <Link to="/register">Sign Up</Link>
         </p>
       </div>
     </Fragment>
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { login })(Login);
