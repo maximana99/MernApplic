@@ -175,6 +175,11 @@ img {
   color: #333;
 }
 
+.btn-black {
+    background-color: black;
+    color: white; /* Pentru a asigura o vizibilitate bună a textului pe fundalul negru */
+  }
+
 
 .btn-dark,
 .bg-dark,
@@ -586,4 +591,6 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
+
+
 }
